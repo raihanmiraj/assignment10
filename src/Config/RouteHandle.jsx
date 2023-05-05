@@ -49,7 +49,7 @@ const RouteHandle = () => {
               path: "/chef/:id",
               
              
-              element: <ChefDetails />,
+              element:<PrivateRoute> <ChefDetails /></PrivateRoute>,
              },
         ]
       },
