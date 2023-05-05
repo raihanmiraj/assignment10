@@ -1,32 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../Header/Header';
 import axios from 'axios';
 
 const Slider = () => {
   const [sliderData, setSliderData] = useState();
-
   const [currentSlider, setCurrentSlider] = useState(0); 
   const [loading, setLoading] = useState(true);
+useEffect(() => {
+ if(loading){
   axios.get("/slider")
   .then(response=>{
     setSliderData(response.data)
     setLoading(false);
   })
+ }
+}, []);
 
  
     return (
         <>
           {!loading
-          && <section className={`bg-[url(${sliderData[currentSlider].image})] w-full h-screen text-white relative bg-no-repeat bg-cover `} style={{"background-image": "url('"+sliderData[currentSlider].image+ "')"}}>
+          && <section className={`bg-[url(${sliderData[currentSlider].image})] w-full h-screen text-white relative bg-no-repeat bg-cover `} style={{backgroundImage: "url('"+sliderData[currentSlider].image+ "')"}}>
           <Header/>
-           <div className="w-full h-full flex  justify-end items-center">
-             <div className="flex flex-col justify-center items-end md:mr-12 w-[30%] gap-10  md:pb-[70px]">
-               <h1 className="text-5xl font-semibold text-right">
+           <div className="w-full h-full flex justify-center md:justify-end items-center">
+             <div className="flex flex-col justify-center items-center md:items-end md:mr-12 w-[90%]  md:w-[30%] gap-10 pb-[110px]  md:pb-[70px]">
+               <h1 className="text-2xl md:text-5xl font-semibold text-right">
                  Search Your Favourite Chef
                </h1>
-               <p className="text-lg  w-[80%] text-right ">
-                 {" "}
-                 You can Search and find your favourite chef here
+               <p className="text-lg  w-[80%] text-center md:text-right ">
+                  You can Search and find your favourite chef here
                </p>
                <div className="relative block flex justify-center items-center w-full">
                  <span className="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -43,7 +45,7 @@ const Slider = () => {
                    </svg>
                  </span>
                  <input
-                   className="w-full bg-transparent placeholder:font-italitc border border-white rounded-full py-5 pl-10 pr-4 focus:outline-none"
+                   className="w-full bg-transparent placeholder:font-italitc border border-white rounded-full py-2 md:py-5 pl-10 pr-4 focus:outline-none"
                    placeholder=""
                    type="text"
                  />
@@ -55,7 +57,7 @@ const Slider = () => {
        {
        sliderData.map((e, index)=>{
        
-         return <div className="w-5 h-5 border border-2 rounded-[5px] object-contain flex justify-center items-center" onClick={()=>setCurrentSlider(index)}>
+         return <div key={index} className="w-5 h-5 border border-2 rounded-[5px] object-contain flex justify-center items-center" onClick={()=>setCurrentSlider(index)}>
               {currentSlider == index &&  <div className="bg-white w-2 h-2 rounded-sm" />}
              </div>
        })

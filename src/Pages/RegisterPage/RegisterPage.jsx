@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import LoginWithGoogle from '../../Component/LoginWithSocial/LoginWithGoogle';
 import LoginWithGithub from '../../Component/LoginWithSocial/LoginWithGithub';
@@ -6,21 +6,36 @@ import LoginWithFacebook from '../../Component/LoginWithSocial/LoginWithFacebook
 import LoginWithApple from '../../Component/LoginWithSocial/LoginWithApple';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from 'react-router-dom';
+import app from '../../firebase/firebase.config';
 const RegisterPage = () => {
 const [message , setMessage] = useState("");
-   
+const changeInputPassword = (e)=>{
+  setMessage("")
  
 
-    const auth = getAuth(); 
+}
+ 
+  const auth = getAuth(app); 
     const handleSubmit = (e)=>{
         e.preventDefault();
  let email = e.target.email.value
  let password = e.target.password.value
+ if(password == "" || email ==""){
+  setMessage("Password or email can't be empty")
+ }else if(password.length <6){
+  setMessage("Password Must be more than 6")
+return ;
+} 
  createUserWithEmailAndPassword(auth, email, password)
  .then((userCredential) => {
  
    const user = userCredential.user;
-   console.log(user)
+   user.updateProfile({
+    displayName:  e.target.name.value,
+    photoURL: e.target.image.value,
+  });
+  
+ 
  
  })
  .catch((error) => {
@@ -38,7 +53,10 @@ const [message , setMessage] = useState("");
     <Link  to="/register"  className="py-2  border-b-4 ">Register Now</Link>
     </div>
   
-    <input
+
+
+<form  onSubmit={handleSubmit} className="flex flex-col gap-5 ">
+<input
         type="text"
         name="name"
         id=""
@@ -52,25 +70,24 @@ const [message , setMessage] = useState("");
         placeholder="Enter Your Photo Url"
         className="p-2 rounded-sm text-black outline-0"
       />
-
-<div className="flex flex-col gap-5 ">
       <input
         type="email"
         name="email"
         id=""
         placeholder="Enter Your Email"
-        className="p-2 rounded-sm text-black outline-0"
+        className="p-2 rounded-sm text-black outline-0" required
       />
-      <input
+      <input onChange={changeInputPassword}
         type="password"
         name="password"
         id=""
         placeholder="Enter Password"
-        className="p-2 rounded-sm text-black outline-0"
+        className="p-2 rounded-sm text-black outline-0" required
       />
-      <button className="bg-[#f4181c] p-3 rounded-sm">Login</button>
+      <p className='text-red-700'>{message}</p>
+      <button type="submit" className="bg-[#f4181c] p-3 rounded-sm">Login</button>
       <a href="#">Forgot Password?</a>
-    </div>
+    </form>
     <div className="grid grid-cols-2 gap-4 text-black text-[10px] md:text-sm">
    {/* <LoginWithFacebook/>
    <LoginWithApple/> */}

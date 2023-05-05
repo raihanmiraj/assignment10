@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
  
 import axios from 'axios';
+import { useEffect } from 'react';
 
 const LatestRecipe = () => {
     const [recentRecipeData, setrecentRecipeData] = useState();
 
     const [currentrecentRecipe, setCurrentrecentRecipe] = useState(0); 
     const [loading, setLoading] = useState(true);
+   useEffect(() => {
     axios.get("/latestrecipe")
     .then(response=>{
       setrecentRecipeData(response.data)
       setLoading(false);
     })
+   }, []);
   
 
     return (
@@ -33,8 +36,7 @@ const LatestRecipe = () => {
       <div className="m-4">
         <span className="font-bold">{e.recipe_name}</span>
         <span className="block text-gray-500 text-sm">Recipe by {e.chef_name}</span>
-      </div>
-      <div className="badge">
+        <div className="badge">
         <svg
           className="w-5 inline-block"
           xmlns="http://www.w3.org/2000/svg"
@@ -51,6 +53,8 @@ const LatestRecipe = () => {
         </svg>
         <span>{e.time}</span>
       </div>
+      </div>
+    
     </div>
     })
     }

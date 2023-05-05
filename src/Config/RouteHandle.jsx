@@ -15,6 +15,7 @@ import RestictedPublicRoute from './RestictedPublicRoute';
 import ErrorPage from '../Pages/ErrorPage/ErrorPage';
 import BlogPage from '../Pages/BlogPage/BlogPage';
 import RegisterPage from '../Pages/RegisterPage/RegisterPage';
+import ChefDetails from '../Pages/ChefDetails/ChefDetails';
 const RouteHandle = () => {
    const  { registerUser, user, logOut, loginUser,isLogged,setIsLogged }  = useContext(AuthContext);
  
@@ -43,6 +44,12 @@ const RouteHandle = () => {
               }
             },
               element: <BlogPage />,
+             },
+             {
+              path: "/chef/:id",
+              
+             
+              element: <ChefDetails />,
              },
         ]
       },
