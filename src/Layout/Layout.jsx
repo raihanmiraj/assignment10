@@ -13,7 +13,10 @@ const Layout = () => {
     return (
         <>
        
-        <Slider/>
+        <Slider> 
+               <Header/> 
+        
+        </Slider>
      
  
 <Outlet/>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../Header/Header';
 import axios from 'axios';
 
-const Slider = () => {
+const Slider = ({children}) => {
   const [sliderData, setSliderData] = useState();
   const [currentSlider, setCurrentSlider] = useState(0); 
   const [loading, setLoading] = useState(true);
@@ -21,7 +21,7 @@ useEffect(() => {
         <>
           {!loading
           && <section className={`bg-[url(${sliderData[currentSlider].image})] w-full h-screen text-white relative bg-no-repeat bg-cover `} style={{backgroundImage: "url('"+sliderData[currentSlider].image+ "')"}}>
-          <Header/>
+      {children}
            <div className="w-full h-full flex justify-center md:justify-end items-center">
              <div className="flex flex-col justify-center items-center md:items-end md:mr-12 w-[90%]  md:w-[30%] gap-10 pb-[110px]  md:pb-[70px]">
                <h1 className="text-2xl md:text-5xl font-semibold text-right">
